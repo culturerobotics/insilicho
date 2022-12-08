@@ -119,5 +119,5 @@ class InitialConditions(UnitValidationMixin):
             "Coxygen": "mmol/L",
             "pH": "dimensionless",
             "Xv": "dimensionless",
-            "Xv": "dimensionless",
+            "Xt": "dimensionless",
         }
