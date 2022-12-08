@@ -1,0 +1,11 @@
+### Zinc gitignore
+*.pyc
+
+# IntelliJ project files
+*.idea
+*.iml
+out
+gen
+
+# Sphinx autodoc build system
+docs/_build

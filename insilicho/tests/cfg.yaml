@@ -1,0 +1,6 @@
+---
+parameters:
+  K_lys: 0.05
+
+initial_conditions:
+  V: 0.025
