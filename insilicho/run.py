@@ -12,8 +12,8 @@ class GrowCHO:
     def __init__(
         self,
         config: typing.Union[typing.Dict[str, typing.Any], str],
-        feed_fn: typing.Callable[[typing.Any], typing.Any],
-        temp_fn: typing.Callable[[typing.Any], typing.Any],
+        feed_fn: typing.Optional[typing.Callable[[typing.Any], typing.Any]],
+        temp_fn: typing.Optional[typing.Callable[[typing.Any], typing.Any]],
         random_seed: int = 0,
         param_rel_stddev: float = 0.05,
         solver_max_step_size=0.1,

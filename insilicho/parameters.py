@@ -118,6 +118,6 @@ class InitialConditions(UnitValidationMixin):
             "Cmab": "mmol/L",
             "Coxygen": "mmol/L",
             "pH": "dimensionless",
-            "Xv": "dimensionless",
-            "Xt": "dimensionless",
+            "Xv": "1/L",
+            "Xt": "1/L",
         }
