@@ -1,4 +1,4 @@
-# in-siliC(H)O
+# in-silic(H)o
 A model (WIP!) to capture CHO dynamics in-silico
 
 # Usage
