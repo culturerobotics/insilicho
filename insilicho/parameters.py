@@ -97,7 +97,7 @@ class InputParameters(UnitValidationMixin):
 @dataclasses.dataclass
 class InitialConditions(UnitValidationMixin):
     V: float = 50 / 1000  # liter
-    Xv: float = 8e6
+    Xv: float = 8e9
     Xt: float = Xv
     Cglc: float = 100
     Cgln: float = 100
