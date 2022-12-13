@@ -35,7 +35,11 @@ def solve(
         growth_model.model,
         IC,
         tspan,
-        (args, feed_fn, temp_fn),
+        (
+            args,
+            feed_fn,
+            temp_fn,
+        ),
         tfirst=True,
         printmessg=False,
         full_output=True,
