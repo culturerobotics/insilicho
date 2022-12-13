@@ -4,8 +4,7 @@
 import numpy as np
 
 from insilicho import chemistry, parameters
-from insilicho.chemistry import Species
-from insilicho.chemistry import Thermodynamics
+from insilicho.chemistry import Species, Thermodynamics
 
 
 class ProcessDependencies:
@@ -171,13 +170,25 @@ def model(
     dV = F
     dpH = 0  # TODO
 
+    if Cglc < parameters.EPSILON:
+        dCglc = parameters.EPSILON
+
+    if Cgln < parameters.EPSILON:
+        dCgln = parameters.EPSILON
+
+    if Clac < parameters.EPSILON:
+        dClac = parameters.EPSILON
+
+    if Camm < parameters.EPSILON:
+        dCamm = parameters.EPSILON
+
     return [
         dXv,
         dXt,
         dCglc,
         dCgln,
-        dClac * Clac / (Clac + parameters.EPSILON),
-        dCamm * Camm / (Camm + parameters.EPSILON),
+        dClac,
+        dCamm,
         dCmab,
         dCoxygen,
         dV,
