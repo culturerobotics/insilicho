@@ -41,7 +41,7 @@ def solve_and_plot(
         ax1.set_ylabel("Viable cells [millions/mL]")
         ax2.set_ylabel("Oxygen [mM]")
         ax3.set_ylabel("Osmolarity [mM]")
-        ax4.set_ylabel("mAbs [mM]")
+        ax4.set_ylabel("mAbs [mg/L]")
         ax5.set_ylabel("pH [-]")
         ax6.set_ylabel("Volume [L]")
         ax7.set_ylabel("Species [mM]")
@@ -54,7 +54,7 @@ def solve_and_plot(
         ax1.plot(tspan, Xv * 1e-9)  # converted to millions/mL by *1e-9
         ax2.plot(tspan, Coxygen)
         ax3.plot(tspan, Osmolarity)
-        ax4.plot(tspan, Cmab)  # TODO: correct mAbs
+        ax4.plot(tspan, Cmab)  # mg/L
         ax5.plot(tspan, pH)  # pH
         ax6.plot(tspan, V)
         ax7.plot(tspan, Cglc, tspan, Cgln, tspan, Clac, tspan, Camm)

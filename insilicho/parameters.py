@@ -52,14 +52,13 @@ class InputParameters(UnitValidationMixin):
     q_glc_max: typing.Union[float, str] = 0.25e-9  # mmol/liter/hour
     q_gln_max: typing.Union[float, str] = 0.085e-9  # mmol/liter/hour
     q_lac_max: typing.Union[float, str] = 0.1e-9  # mmol/liter/hour
-    mab_time_decay: typing.Union[float, str] = 1e-3  # 1/hour/[C^0.2 units]
 
     Cglc_feed: typing.Union[float, str] = 150  # mmol/liter
     Cgln_feed: typing.Union[float, str] = 150  # mmol/liter
 
     Y_amm_gln: float = 2  # -
     Y_lac_glc: float = 2  # -
-    Y_mab_cell: float = 1e-9  # - value is arbitrary, doesnt work properly as this number is not defined in paper
+    Y_mab_cell: typing.Union[float, str] = 1  # picograms/cell/hr
 
     perfect_control: bool = True
     # # Bolus feeding
@@ -90,7 +89,7 @@ class InputParameters(UnitValidationMixin):
             "q_lac_max": "mmol/L/hr",
             "Cglc_feed": "mmol/L",
             "Cgln_feed": "mmol/L",
-            "mab_time_decay": "1/(hr*(mmol/L)^.2)",
+            "Y_mab_cell": "picograms/hr",
         }
 
 
