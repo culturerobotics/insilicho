@@ -1,3 +1,5 @@
+![GitHub CI](https://github.com/github/docs/actions/workflows/python_tests.yml/badge.svg)
+
 # in-silic(H)o
 A model (WIP!) to capture CHO dynamics in-silico
 
