@@ -6,6 +6,8 @@ from insilicho.chemistry import Thermodynamics
 
 # simulation epsilon, a small number takes whatever units we want
 EPSILON = 1e-12
+# A SMALL CONC value to avoid zeros
+SMALL_CONC = 0.01  # mM
 
 
 @dataclasses.dataclass
@@ -52,13 +54,14 @@ class InputParameters(UnitValidationMixin):
     q_glc_max: typing.Union[float, str] = 0.25e-9  # mmol/liter/hour
     q_gln_max: typing.Union[float, str] = 0.085e-9  # mmol/liter/hour
     q_lac_max: typing.Union[float, str] = 0.1e-9  # mmol/liter/hour
+    mab_time_decay: typing.Union[float, str] = 1e-3  # 1/hour/[C^0.2 units]
 
     Cglc_feed: typing.Union[float, str] = 150  # mmol/liter
     Cgln_feed: typing.Union[float, str] = 150  # mmol/liter
 
     Y_amm_gln: float = 2  # -
     Y_lac_glc: float = 2  # -
-    Y_mab_cell: typing.Union[float, str] = 1  # picograms/cell/hr
+    Y_mab_cell: float = 1e-9  # - value is arbitrary, doesnt work properly as this number is not defined in paper
 
     perfect_control: bool = True
     # # Bolus feeding
@@ -89,7 +92,36 @@ class InputParameters(UnitValidationMixin):
             "q_lac_max": "mmol/L/hr",
             "Cglc_feed": "mmol/L",
             "Cgln_feed": "mmol/L",
-            "Y_mab_cell": "picograms/hr",
+            "mab_time_decay": "1/(hr*(mmol/L)^.2)",
+        }
+
+
+@dataclasses.dataclass
+class InitialConditions(UnitValidationMixin):
+    V: float = 50.0 / 1000  # liter
+    Xv: float = 8e9
+    Xt: float = Xv
+    Cglc: float = 100
+    Cgln: float = 100
+    Clac: float = EPSILON
+    Camm: float = EPSILON
+    Cmab: float = EPSILON
+    Coxygen: float = Thermodynamics.Csat_oxygen(35)
+    pH: float = 7.0
+
+    @staticmethod
+    def units_map():
+        return {
+            "V": "L",
+            "Cglc": "mmol/L",
+            "Cgln": "mmol/L",
+            "Clac": "mmol/L",
+            "Camm": "mmol/L",
+            "Cmab": "mmol/L",
+            "Coxygen": "mmol/L",
+            "pH": "dimensionless",
+            "Xv": "1/L",
+            "Xt": "1/L",
         }
 
 

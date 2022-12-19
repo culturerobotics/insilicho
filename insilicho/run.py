@@ -86,6 +86,10 @@ class GrowCHO:
             sampling_stddev=sampling_stddev,
         )
 
+    @property
+    def full_result(self):
+        return self._full_result
+
 
 def config_parser(cfg_path):
     data = {}

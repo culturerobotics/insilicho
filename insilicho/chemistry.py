@@ -20,11 +20,10 @@ class Species:
     Glc = Specie("C6H12O6", 180)
     Gln = Specie("C5H10N2O3", 146.14)
     Asp = Specie("C4H8N2O3", 132.12)
-    Lac = Specie("C3H6O3", 90.08, phi=1, disassoc_const=1.3e-1)
+    Lac = Specie("C3H6O3", 90.08, phi=2, disassoc_const=1.3e-1)
     NH3 = Specie("NH3", 17.031, disassoc_const=1.9e-2)
     O2 = Specie("O2", 31.999)
     CO2 = Specie("CO2", 44.01)
-    mAbs = Specie("mAb", 150000.0)
 
 
 class Constants:
