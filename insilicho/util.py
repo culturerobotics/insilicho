@@ -1,6 +1,8 @@
 import dataclasses
 import typing
 
+import numpy as np
+
 from insilicho import parameters
 
 
