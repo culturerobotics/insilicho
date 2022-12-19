@@ -2,21 +2,9 @@
 
 
 import numpy as np
-import typing
 
-from insilicho import chemistry, parameters
-from insilicho.chemistry import Species
-
-
-def sigmoid(x: typing.Any, sharpness: float = 1.0, thresh: float = 0.0):
-    """
-
-    Args:
-        x: value
-        sharpness : sharpness of transition. Defaults to 1.
-        thresh : critical value for switching where function value is 0.5. Defaults to 0.
-    """
-    return 1 / (1 + np.exp(-sharpness * (x - thresh)))
+from insilicho import parameters
+from insilicho.chemistry import Constants, Species, Thermodynamics
 
 
 class ProcessDependencies:
@@ -27,24 +15,12 @@ class ProcessDependencies:
     @staticmethod
     def OsmolarityDependence(Osmolarity):
         isotonic_osmolality = 320  # mOSm/kg
-        critical_osmolality = 400  # sets the denominator width
-        return 1 - sigmoid(
-            Osmolarity,
-            0.1,
-            0.5 * (isotonic_osmolality + critical_osmolality),
+        critical_osmolality = 400  # beyond this no production of mAbs
+        return np.exp(
+            -1
+            * max(0, Thermodynamics.molar_to_molal(Osmolarity, 1) - isotonic_osmolality)
+            / (critical_osmolality - isotonic_osmolality)
         )
-
-    @staticmethod
-    def mAbsAmmoniaDependence(C):
-        # anything above 175 is bad
-        # TODO: sharpness and thresh chould be params exposed outside here
-        return 1 - sigmoid(C, sharpness=0.2, thresh=175)
-
-    @staticmethod
-    def mAbsFeedDependence(C):
-        # anything below 0.5 is bad
-        # TODO: sharpness and thresh chould be params exposed outside here
-        return 1 - sigmoid(C, sharpness=-5, thresh=0.5)
 
     @staticmethod
     def GrowthRateOxygenDependence(Coxygen, K_oxygen=0.03):
@@ -56,7 +32,7 @@ class ProcessDependencies:
         # From https://www.pnas.org/doi/pdf/10.1073/pnas.79.4.1166
         oxygen_molecules_needed = 3.8e7  # O2_molecules/cell/second
         return (
-            oxygen_molecules_needed / chemistry.Constants.Avogadro * 3600
+            oxygen_molecules_needed / Constants.Avogadro * 3600
         )  # millimolesO2/hr/cell
 
     @staticmethod
@@ -93,12 +69,10 @@ def state_vars(
     Osmolarity = (
         Cglc * Species.Glc.phi
         + Cgln * Species.Gln.phi
-        + (
-            Clac * Species.Lac.phi * 0
-        )  # TODO: makin this not affect osmo for now as lac production shoots up a lot initially
+        + Clac * Species.Lac.phi
         + Camm * Species.NH3.phi
-        + Cmab / Species.mAbs.molar_mass  # Cmab is in mg/L, convert to mmol/L
-    )
+        + Cmab * 1
+    )  # TODO: This is probably not right
 
     # mus
     mu = (
@@ -113,7 +87,6 @@ def state_vars(
             ProcessDependencies.GrowthRateTempSensitivity(T)
             * ProcessDependencies.GrowthRateOxygenDependence(Coxygen)
             * ProcessDependencies.GrowthRatepHSensitivity(pH)
-            * ProcessDependencies.OsmolarityDependence(Osmolarity)
         )
     )
 
@@ -141,20 +114,17 @@ def state_vars(
     )  # TODO: this probably needs to depend somehow on O2?
 
     q_lac_uptake = 0.0
-    if Cglc < 2:
+    if Cglc < 0.5:
         q_lac_uptake = float(
             params.q_lac_max
         )  # TODO: Error in this equation also causes lactate to go below 0 when starting glucose conc is low (~10 mmol/L)!
-    q_lac = params.Y_lac_glc * Cglc / (Clac + parameters.EPSILON) * q_glc - q_lac_uptake
+    q_lac = (
+        params.Y_lac_glc * Cglc / (Clac + parameters.SMALL_CONC) * q_glc - q_lac_uptake
+    )  # TODO replace 0.01
     q_amm = params.Y_amm_gln * q_gln  # nothing consumes ammonia once formed?
-
-    q_mab = (
-        params.Y_mab_cell
-        * 1e-9
-        * ProcessDependencies.OsmolarityDependence(Osmolarity)
-        * ProcessDependencies.mAbsAmmoniaDependence(Camm)
-        * ProcessDependencies.mAbsFeedDependence(Cglc)
-    )  # factor required for converting picograms to milligrams
+    q_mab = params.Y_mab_cell * ProcessDependencies.OsmolarityDependence(Osmolarity)
+    if Cglc < 1 or Camm > params.Ki_amm or Cgln < 0.05:
+        q_mab = q_mab / 100
 
     return (
         F,
@@ -194,7 +164,7 @@ def model(
     dCgln = -q_gln * Xv + F * (params.Cgln_feed - Cgln) / V
     dClac = q_lac * Xv - F * Clac / V
     dCamm = q_amm * Xv - F * Camm / V
-    dCmab = q_mab * Xv
+    dCmab = q_mab * Xv - params.mab_time_decay * Cmab**1.2
     # TODO: Cmab at different temp goes to same number but at different times, need to recheck.
 
     # Process
@@ -202,25 +172,13 @@ def model(
     dV = F
     dpH = 0  # TODO
 
-    if Cglc < parameters.EPSILON:
-        dCglc = parameters.EPSILON
-
-    if Cgln < parameters.EPSILON:
-        dCgln = parameters.EPSILON
-
-    if Clac < parameters.EPSILON:
-        dClac = parameters.EPSILON
-
-    if Camm < parameters.EPSILON:
-        dCamm = parameters.EPSILON
-
     return [
         dXv,
         dXt,
-        dCglc,
-        dCgln,
-        dClac,
-        dCamm,
+        dCglc * Cglc / (Cglc + parameters.SMALL_CONC),
+        dCgln * Cgln / (Cgln + parameters.SMALL_CONC),
+        dClac * Clac / (Clac + parameters.SMALL_CONC),
+        dCamm * Camm / (Camm + parameters.SMALL_CONC),
         dCmab,
         dCoxygen,
         dV,
