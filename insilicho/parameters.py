@@ -123,32 +123,3 @@ class InitialConditions(UnitValidationMixin):
             "Xv": "1/L",
             "Xt": "1/L",
         }
-
-
-@dataclasses.dataclass
-class InitialConditions(UnitValidationMixin):
-    V: float = 50 / 1000  # liter
-    Xv: float = 8e9
-    Xt: float = Xv
-    Cglc: float = 100
-    Cgln: float = 100
-    Clac: float = EPSILON
-    Camm: float = EPSILON
-    Cmab: float = EPSILON
-    Coxygen: float = Thermodynamics.Csat_oxygen(35)
-    pH: float = 7.0
-
-    @staticmethod
-    def units_map():
-        return {
-            "V": "L",
-            "Cglc": "mmol/L",
-            "Cgln": "mmol/L",
-            "Clac": "mmol/L",
-            "Camm": "mmol/L",
-            "Cmab": "mmol/L",
-            "Coxygen": "mmol/L",
-            "pH": "dimensionless",
-            "Xv": "1/L",
-            "Xt": "1/L",
-        }

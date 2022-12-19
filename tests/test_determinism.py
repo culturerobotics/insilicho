@@ -66,9 +66,9 @@ def get_mismatches(n_runs, ref_observations):
 
 
 class TestDeterminism:
-    @pytest.mark.timeout(60)
+    @pytest.mark.timeout(90)
     def test_determinism(self) -> None:
-        n_runs = 128
+        n_runs = 64
         obs = _run_initial_set(n_runs)
         assert obs.shape[0] == n_runs
         assert not get_mismatches(n_runs, obs)
