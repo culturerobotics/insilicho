@@ -78,7 +78,7 @@ test-no-codebase = ["pytest", "matplotlib", "pillow"]
 
 [[package]]
 name = "coverage"
-version = "6.5.0"
+version = "7.0.0"
 description = "Code coverage measurement for Python"
 category = "dev"
 optional = false
@@ -242,8 +242,8 @@ python-versions = "*"
 
 [[package]]
 name = "numpy"
-version = "1.23.5"
-description = "NumPy is the fundamental package for array computing with Python."
+version = "1.24.0"
+description = "Fundamental package for array computing in Python"
 category = "main"
 optional = false
 python-versions = ">=3.8"
@@ -393,7 +393,7 @@ six = ">=1.5"
 
 [[package]]
 name = "pytz"
-version = "2022.6"
+version = "2022.7"
 description = "World timezone definitions, modern and historical"
 category = "main"
 optional = false
@@ -443,7 +443,7 @@ dev = ["mypy", "typing-extensions", "pycodestyle", "flake8"]
 
 [[package]]
 name = "setuptools-scm"
-version = "7.0.5"
+version = "7.1.0"
 description = "the blessed package to manage your versions by scm tags"
 category = "dev"
 optional = false
@@ -451,7 +451,7 @@ python-versions = ">=3.7"
 
 [package.dependencies]
 packaging = ">=20.0"
-tomli = ">=1.0.0"
+tomli = {version = ">=1.0.0", markers = "python_version < \"3.11\""}
 typing-extensions = "*"
 
 [package.extras]
@@ -623,7 +623,7 @@ socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "23e1d5d0c3b782aa1768c6243b6813afb0a65a773cf86724db5e55c5aafd7968"
+content-hash = "d5dbd96a2c2040e53bb27530937c9bf7f4662e397b90d1efa2337ff780a8f6bc"
 
 [metadata.files]
 alabaster = []
