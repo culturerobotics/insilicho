@@ -144,7 +144,7 @@ def flex2_sampling(
     # get idx to sample at
     idx = np.round(
         np.linspace(0, len(Xv) - 1, params.Ndays * params.Nsamples + 1)
-    ).astype(int)[1:]
+    ).astype(int)
 
     # sample across small time range, add noise
     for k, var in res_map.items():
@@ -152,11 +152,9 @@ def flex2_sampling(
         if k == "time":
             res[k] = var[idx].tolist()
         else:
-            # taking mean of three simulation time steps around sampling idx
-            mean_val = (var[idx - 2] + var[idx - 1] + var[idx]) / 3
             res[k] = np.maximum(
                 np.random.normal(
-                    loc=mean_val, scale=float(sampling_stddev), size=len(idx)
+                    loc=var[idx], scale=float(sampling_stddev), size=len(idx)
                 ),
                 parameters.EPSILON,
             ).tolist()
