@@ -45,8 +45,8 @@ def run_exp(factor_settings, model=RealCHO, Xv=8e9, plot=False, sampling_stddev=
 
     settings = default_settings | factor_settings
 
-    def feed(t, _V):
-        return 1e-6
+    def feed(t):
+        return 0
 
     def temp(t):
         if t < settings["prod_start_eft"]:
