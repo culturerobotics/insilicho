@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "insilicho"
-version = "0.1.2"
+version = "1.0.0"
 description = "An insilico model for CHO cells"
 authors = ["Project Zinc <matt@culturebiosciences.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-scipy = "^1.9.2"
-numpy = "^1.24.0"
+scipy = ">1.7.0"
+numpy = "=1.23.5"
 pandas = "^1.5.0"
 Pint = "^0.19.2"
 mypy = "^0.991"
