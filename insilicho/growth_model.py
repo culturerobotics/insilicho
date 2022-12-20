@@ -63,7 +63,7 @@ def state_vars(
     if not feed_fn or not temp_fn:
         raise IOError("feed/temp model missing")
 
-    F = feed_fn(t, V)
+    F = feed_fn(t)
     T = temp_fn(t)
 
     Osmolarity = (
