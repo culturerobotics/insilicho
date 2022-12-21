@@ -127,7 +127,7 @@ class TestBlips:
         for _ in range(self.N_ITERS):
             for conditions in self.KNOWN_BLIP_CONDITIONS:
                 model = run.GrowCHO(
-                    {"parameters": {"Ndays": 10, "Nsamples": 2}},
+                    {"parameters": {"Ndays": 4, "Nsamples": 2}},
                     None,
                     None,
                 )
