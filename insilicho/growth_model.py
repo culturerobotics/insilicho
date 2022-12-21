@@ -67,11 +67,11 @@ def state_vars(
     T = temp_fn(t)
 
     Osmolarity = (
-        Cglc * Species.Glc.phi
-        + Cgln * Species.Gln.phi
-        + Clac * Species.Lac.phi
-        + Camm * Species.NH3.phi
-        + Cmab * 1
+        max(0, Cglc) * Species.Glc.phi
+        + max(0, Cgln) * Species.Gln.phi
+        + max(0, Clac) * Species.Lac.phi
+        + max(0, Camm) * Species.NH3.phi
+        + max(0, Cmab) * 1
     )  # TODO: This is probably not right
 
     # mus

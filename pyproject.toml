@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "insilicho"
-version = "1.0.0"
+version = "1.0.1"
 description = "An insilico model for CHO cells"
 authors = ["Project Zinc <matt@culturebiosciences.com>"]
 
