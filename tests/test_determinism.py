@@ -66,15 +66,6 @@ def get_mismatches(n_runs, ref_observations):
     ]
 
 
-class TestDeterminism:
-    @pytest.mark.timeout(90)
-    def test_determinism(self) -> None:
-        n_runs = 64
-        obs = _run_initial_set(n_runs)
-        assert obs.shape[0] == n_runs
-        assert not get_mismatches(n_runs, obs)
-
-
 class TestBlips:
     N_ITERS = 3
     KNOWN_BLIP_CONDITIONS = [
@@ -136,7 +127,23 @@ class TestBlips:
                     model=model,
                     plot=False,
                 )
-                vol = model.full_result.state[:, 8]
+
                 ph = model.full_result.state[:, 9]
-                assert np.argwhere(ph <= 0).shape[0] == 0
-                assert np.argwhere(vol <= 0).shape[0] == 0
+                assert (
+                    not np.argwhere(ph <= 0).size and not np.argwhere(np.isnan(ph)).size
+                )
+
+                vol = model.full_result.state[:, 8]
+                assert (
+                    not np.argwhere(vol <= 0).size
+                    and not np.argwhere(np.isnan(vol)).size
+                )
+
+
+class TestDeterminism:
+    @pytest.mark.timeout(90)
+    def test_determinism(self) -> None:
+        n_runs = 64
+        obs = _run_initial_set(n_runs)
+        assert obs.shape[0] == n_runs
+        assert not get_mismatches(n_runs, obs)
