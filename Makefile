@@ -11,7 +11,7 @@ tc typecheck:
 	poetry run mypy . --show-error-codes
 
 test: tc
-	poetry run pytest --timeout=5 --cov-report=xml --cov-report=html --cov=. --junitxml=test-metadata/junit.xml
+	poetry run pytest --timeout=5 --cov-report=xml --cov-report=html --cov=. --junitxml=test-metadata/junit.xml -vvv
 
 test-verbose: tc
 	poetry run pytest -vvv --capture=no --timeout=5 --cov-report=xml --cov-report=html --cov=. --junitxml=test-metadata/junit.xml

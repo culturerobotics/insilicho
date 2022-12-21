@@ -46,7 +46,28 @@ def run_exp(factor_settings, model=RealCHO, Xv=8e9, plot=False, sampling_stddev=
     settings = default_settings | factor_settings
 
     def feed(t):
-        return 0
+        feed_array = [
+            settings["day_0_feed"],
+            settings["day_1_feed"],
+            settings["day_2_feed"],
+            settings["day_3_feed"],
+        ]
+        # Repeat last entry to avoid index out of bounds.
+        feed_array += 100 * [settings["day_3_feed"]]
+
+        # Calculate when we will hit V = 0.25 - we need to cut to 0 at this point
+        V = 0.12  # Starting volume
+        t_stop = None
+        for i in range(len(feed_array)):
+            if V + 24 * feed_array[i] > 0.25:
+                t_stop = i * 24 + (0.25 - V) / feed_array[i]
+                break
+            V += 24 * feed_array[i]
+
+        if (t_stop is not None) and (t > t_stop):
+            return 0
+        else:
+            return feed_array[int(t // 24)]
 
     def temp(t):
         if t < settings["prod_start_eft"]:
