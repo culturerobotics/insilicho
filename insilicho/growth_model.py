@@ -2,8 +2,8 @@
 
 import numpy as np
 
-from insilicho import chemistry, parameters
-from insilicho.chemistry import Species, Thermodynamics
+from insilicho import parameters
+from insilicho.chemistry import Species
 
 
 def exponential_dependence_around_optima(
@@ -17,6 +17,8 @@ def exponential_dependence_around_optima(
         x (float): value of a variable.
         optima (float): Optimal value for a variable.
         spread (float, optional): Spread around the optimal, sets rate of decay. Defaults to 1.0.
+        spread (float, optional): Spread around the optimal, sets rate of decay.
+            Defaults to 1.0.
 
     Returns:
         float: Number between 0 and 1 indicating distance from optima.

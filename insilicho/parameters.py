@@ -30,7 +30,8 @@ class UnitValidationMixin:
                 self.__dict__[name] = unitd_val.to(to_units).magnitude
             except units.pint.errors.DimensionalityError:
                 raise ValueError(
-                    f"Dimensionality error in setting {name}, cannot convert from: {unitd_val.units} to: {to_units}"
+                    f"Dimensionality error in setting {name}, cannot convert from:"
+                    f"{unitd_val.units} to: {to_units}"
                 )
         else:
             super().__setattr__(name, val)
@@ -38,7 +39,8 @@ class UnitValidationMixin:
 
 @dataclasses.dataclass(order=True)
 class InputParameters(UnitValidationMixin):
-    # From SI, Table 2 of "Model uncertainty-based evaluation of process strategies during scale-up of biopharmaceutical process"
+    # From SI, Table 2 of "Model uncertainty-based evaluation of process strategies
+    # during scale-up of biopharmaceutical process"
     mu_max: typing.Union[float, str] = 0.043  # 1/hour
     mu_d_max: typing.Union[float, str] = 0.06  # 1/hour
     mu_d_min: typing.Union[float, str] = 0.001  # 1/hour
