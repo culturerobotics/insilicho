@@ -1,3 +1,4 @@
+import typing
 import numpy as np
 from scipy.integrate import odeint
 
@@ -9,8 +10,8 @@ def solve(
     initial_conditions: parameters.InitialConditions,
     model=growth_model.model,
     tspan=np.linspace(0, 288, 10000),
-    feed_fn=None,
-    temp_fn=None,
+    feed_fn: typing.Optional[growth_model.FeedFunctionType] = None,
+    temp_fn: typing.Optional[growth_model.TempFunctionType] = None,
     solver_hmax=np.inf,
 ):
     IC = initial_conditions.tolist()

@@ -5,15 +5,15 @@ import typing
 import numpy as np
 import yaml
 
-from insilicho import parameters, plotter, solver, util
+from insilicho import growth_model, parameters, plotter, solver, util
 
 
 class GrowCHO:
     def __init__(
         self,
         config: typing.Union[typing.Dict[str, typing.Any], str],
-        feed_fn: typing.Optional[typing.Callable[[typing.Any], typing.Any]],
-        temp_fn: typing.Optional[typing.Callable[[typing.Any], typing.Any]],
+        feed_fn: typing.Optional[growth_model.FeedFunctionType],
+        temp_fn: typing.Optional[growth_model.TempFunctionType],
         random_seed: int = 0,
         param_rel_stddev: float = 0.05,
         solver_max_step_size=np.inf,
