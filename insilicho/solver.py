@@ -9,10 +9,11 @@ from insilicho import growth_model, parameters
 def solve(
     params: parameters.InputParameters,
     initial_conditions: parameters.InitialConditions,
+    model=growth_model.model,
     tspan=np.linspace(0, 288, 10000),
     feed_fn=None,
     temp_fn=None,
-    solver_hmax=0.1,
+    solver_hmax=np.inf,
 ):
     IC = [
         initial_conditions.Xv,
@@ -32,7 +33,7 @@ def solve(
         args.append(getattr(params, field.name))
 
     state_model, info = odeint(
-        growth_model.model,
+        model,
         IC,
         tspan,
         (

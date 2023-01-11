@@ -32,7 +32,9 @@ class GrowCHO:
         self.temp_fn = temp_fn
         self.solver_max_step_size = solver_max_step_size
 
-        self._full_result = types.SimpleNamespace(state=[], state_vars=[], t=[])
+        self._full_result = types.SimpleNamespace(
+            state=[], state_vars=[], t=[], info={}
+        )
 
     def _randomize_params(self, rel_stddev):
         float_params = {
@@ -66,7 +68,7 @@ class GrowCHO:
         if plot:
             solver_fn = plotter.solve_and_plot
 
-        state, state_vars, _ = solver_fn(
+        state, state_vars, infodict = solver_fn(
             self.params,
             self.initial_conditions,
             tspan=tspan,
@@ -75,8 +77,16 @@ class GrowCHO:
             solver_hmax=self.solver_max_step_size,
         )
         self._full_result = types.SimpleNamespace(
-            state=state, state_vars=state_vars, t=tspan
+            state=state,
+            state_vars=state_vars,
+            t=tspan,
+            info=infodict,
         )
+
+        if infodict["message"] != "Integration successful.":
+            raise RuntimeError(
+                "Integration failed at specified params and/or initial values."
+            )
 
         return flex2_sampling(
             state,
