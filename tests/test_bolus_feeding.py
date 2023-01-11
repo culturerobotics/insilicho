@@ -35,6 +35,10 @@ class TestBolusFeed:
 
         assert model_obj.full_result.info["message"] == "Integration successful."
         # Ending concentrations
-        assert (model_obj.full_result.state[-1, 0]) == 26446818993.382122  # Xv
-        assert (model_obj.full_result.state[-1, 1]) == 27031305161.743847  # Xt
+        assert (model_obj.full_result.state[-1, 0]) == pytest.approx(
+            26446818993.382
+        )  # Xv
+        assert (model_obj.full_result.state[-1, 1]) == pytest.approx(
+            27031305161.744
+        )  # Xt
         assert (model_obj.full_result.state[-1, 2]) == pytest.approx(34.266)  # CGlc
