@@ -64,11 +64,8 @@ class GrowCHO:
             raise IOError("Initial conditions undefined for sim")
 
         tspan = np.linspace(0, 24 * self.params.Ndays, 1000 * self.params.Ndays)
-        solver_fn = solver.solve
-        if plot:
-            solver_fn = plotter.solve_and_plot
 
-        state, state_vars, infodict = solver_fn(
+        state, state_vars, infodict = solver.solve(
             self.params,
             self.initial_conditions,
             tspan=tspan,
@@ -76,6 +73,9 @@ class GrowCHO:
             temp_fn=self.temp_fn,
             solver_hmax=self.solver_max_step_size,
         )
+        if plot:
+            plotter.plot(tspan, state, state_vars)
+
         self._full_result = types.SimpleNamespace(
             state=state,
             state_vars=state_vars,
