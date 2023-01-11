@@ -12,7 +12,6 @@ EPSILON = float(np.finfo(float).eps)
 SMALL_CONC = 0.01  # mM
 
 
-@dataclasses.dataclass
 class UnitValidationMixin:
     @staticmethod
     def units_map():
