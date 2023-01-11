@@ -1,5 +1,5 @@
 ![tests](https://github.com/culturerobotics/insilicho/actions/workflows/python_tests.yml/badge.svg)
-![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)(https://github.com/psf/black)
 
 # in-silic(H)o
 A model to capture CHO dynamics in-silico.  An accompanying streamlit app to try the model out is [available](https://culturebio-insilicho.streamlit.app/). 
