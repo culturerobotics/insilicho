@@ -16,7 +16,6 @@ def exponential_dependence_around_optima(
     Args:
         x (float): value of a variable.
         optima (float): Optimal value for a variable.
-        spread (float, optional): Spread around the optimal, sets rate of decay. Defaults to 1.0.
         spread (float, optional): Spread around the optimal, sets rate of decay.
             Defaults to 1.0.
 
