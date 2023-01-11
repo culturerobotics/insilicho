@@ -1,3 +1,5 @@
+# mypy: disable-error-code=operator
+
 import numpy as np
 
 from insilicho import chemistry, parameters

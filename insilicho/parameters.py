@@ -7,7 +7,7 @@ from insilicho import units
 from insilicho.chemistry import Thermodynamics
 
 # simulation epsilon, a small number takes whatever units we want
-EPSILON = np.finfo(float).eps
+EPSILON = float(np.finfo(float).eps)
 # A SMALL CONC value to avoid zeros
 SMALL_CONC = 0.01  # mM
 

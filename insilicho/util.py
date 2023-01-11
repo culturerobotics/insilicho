@@ -1,8 +1,14 @@
 import dataclasses
+import typing
+
+from insilicho import parameters
 
 
 class DataClassUnpack:
-    CACHE = {}
+    CACHE: typing.Dict[
+        typing.Union[parameters.InputParameters, parameters.InitialConditions],
+        typing.Set[str],
+    ] = {}
 
     @classmethod
     def instantiate(cls, cls_inst, arg_dict=None):

@@ -1,17 +1,18 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from insilicho import parameters
+from insilicho import growth_model, parameters
 from insilicho.solver import solve
 
 
 def solve_and_plot(
     params=None,
     ic=None,
+    model=growth_model.model,
     tspan=np.linspace(0, 24 * 10, 1000),
     feed_fn=None,
     temp_fn=None,
-    solver_hmax=0.1,
+    solver_hmax=np.inf,
 ):
     if params is None:
         params = parameters.InputParameters()
@@ -54,7 +55,7 @@ def solve_and_plot(
         ax1.plot(tspan, Xv * 1e-9)  # converted to millions/mL by *1e-9
         ax2.plot(tspan, Coxygen)
         ax3.plot(tspan, Osmolarity)
-        ax4.plot(tspan, Cmab)  # TODO: correct mAbs
+        ax4.plot(tspan, Cmab)
         ax5.plot(tspan, pH)  # pH
         ax6.plot(tspan, V)
         ax7.plot(tspan, Cglc, tspan, Cgln, tspan, Clac, tspan, Camm)
@@ -65,6 +66,7 @@ def solve_and_plot(
     state, state_vars, info = solve(
         params,
         ic,
+        model,
         tspan=tspan,
         feed_fn=feed_fn,
         temp_fn=temp_fn,

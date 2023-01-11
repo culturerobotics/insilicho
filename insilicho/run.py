@@ -32,7 +32,9 @@ class GrowCHO:
         self.temp_fn = temp_fn
         self.solver_max_step_size = solver_max_step_size
 
-        self._full_result = types.SimpleNamespace(state=[], state_vars=[], t=[])
+        self._full_result = types.SimpleNamespace(
+            state=[], state_vars=[], t=[], info={}
+        )
 
     def _randomize_params(self, rel_stddev):
         float_params = {
@@ -75,10 +77,16 @@ class GrowCHO:
             solver_hmax=self.solver_max_step_size,
         )
         self._full_result = types.SimpleNamespace(
-            state=state, state_vars=state_vars, t=tspan
+            state=state,
+            state_vars=state_vars,
+            t=tspan,
+            info=infodict,
         )
 
-        print(infodict["message"])
+        if infodict["message"] != "Integration Successful.":
+            raise RuntimeError(
+                "Integration failed at specified params and/or initial values."
+            )
 
         return flex2_sampling(
             state,
@@ -87,6 +95,10 @@ class GrowCHO:
             tspan,
             sampling_stddev=sampling_stddev,
         )
+
+    @property
+    def full_result(self):
+        return self._full_result
 
 
 def config_parser(cfg_path):
