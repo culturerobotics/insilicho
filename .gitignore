@@ -24,3 +24,6 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+
+# junit xml test metadata
+junit.xml
