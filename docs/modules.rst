@@ -1,13 +1,22 @@
-Project Zinc Modules
+Docs
 ====================================
 
 .. toctree::
    :maxdepth: 3
 
-Species
+Model
 --------------------------------
 
-.. automodule:: sandbox.species
+.. automodule:: insilicho.growth_model
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Solver
+--------------------------------
+
+.. automodule:: insilicho.solver
    :members:
    :undoc-members:
    :show-inheritance:

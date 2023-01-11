@@ -54,7 +54,7 @@ def solve_and_plot(
         ax1.plot(tspan, Xv * 1e-9)  # converted to millions/mL by *1e-9
         ax2.plot(tspan, Coxygen)
         ax3.plot(tspan, Osmolarity)
-        ax4.plot(tspan, Cmab)  # mg/L
+        ax4.plot(tspan, Cmab)  # TODO: correct mAbs
         ax5.plot(tspan, pH)  # pH
         ax6.plot(tspan, V)
         ax7.plot(tspan, Cglc, tspan, Cgln, tspan, Clac, tspan, Camm)

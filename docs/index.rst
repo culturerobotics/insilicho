@@ -1,4 +1,4 @@
-Project Zinc Docs
+Insilicho Documentation
 ================================================
 
 Software that shall enable future reactors.

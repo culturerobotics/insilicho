@@ -1,11 +1,13 @@
 import dataclasses
 import typing
 
+import numpy as np
+
 from insilicho import units
 from insilicho.chemistry import Thermodynamics
 
 # simulation epsilon, a small number takes whatever units we want
-EPSILON = 1e-12
+EPSILON = np.finfo(float).eps
 # A SMALL CONC value to avoid zeros
 SMALL_CONC = 0.01  # mM
 
@@ -36,42 +38,35 @@ class UnitValidationMixin:
 
 @dataclasses.dataclass(order=True)
 class InputParameters(UnitValidationMixin):
-    # defaults from Table 3, Pg 241 of book "Animal Cell Biotechnology"
-    # parameter values
-    mu_max: typing.Union[float, str] = 0.20  # 1/hour
-    mu_d_max: typing.Union[float, str] = 0.03  # 1/hour
-    mu_d_min: typing.Union[float, str] = 0.003  # 1/hour
+    # From SI, Table 2 of "Model uncertainty-based evaluation of process strategies during scale-up of biopharmaceutical process"
+    mu_max: typing.Union[float, str] = 0.043  # 1/hour
+    mu_d_max: typing.Union[float, str] = 0.06  # 1/hour
+    mu_d_min: typing.Union[float, str] = 0.001  # 1/hour
 
-    k_glc: typing.Union[float, str] = 0.19  # mmol/liter
-    k_gln: typing.Union[float, str] = 1  # mmol/liter
-    K_lys: typing.Union[float, str] = 0.005  # 1/hour
-    Ks_amm: typing.Union[float, str] = 10  # mmol/liter
-    Ki_amm: typing.Union[float, str] = 10  # mmol/liter
-    Ks_glc: typing.Union[float, str] = 0.03  # mmol/liter
+    k_glc: typing.Union[float, str] = 0.20  # mmol/liter
+    k_gln: typing.Union[float, str] = 2.5  # mmol/liter
+    K_lys: typing.Union[float, str] = 0.001  # 1/hour
+    Ks_amm: typing.Union[float, str] = 10.0  # mmol/liter
+    Ki_amm: typing.Union[float, str] = 10.0  # mmol/liter
+    Ks_glc: typing.Union[float, str] = 0.02  # mmol/liter
     Ks_gln: typing.Union[float, str] = 0.03  # mmol/liter
 
-    q_mab: typing.Union[float, str] = 0.3e-9  # mmol/liter/hour
-    q_glc_max: typing.Union[float, str] = 0.25e-9  # mmol/liter/hour
-    q_gln_max: typing.Union[float, str] = 0.085e-9  # mmol/liter/hour
-    q_lac_max: typing.Union[float, str] = 0.1e-9  # mmol/liter/hour
-    mab_time_decay: typing.Union[float, str] = 1e-3  # 1/hour/[C^0.2 units]
+    q_mab: typing.Union[float, str] = 3.12e-10  # mg/cell/hour
+    q_glc_max: typing.Union[float, str] = 0.05e-9  # mmol/cell/hour
+    q_gln_max: typing.Union[float, str] = 0.054e-9  # mmol/cell/hour
+    q_lac_max: typing.Union[float, str] = 0.2e-9  # mmol/cell/hour
 
-    Cglc_feed: typing.Union[float, str] = 150  # mmol/liter
-    Cgln_feed: typing.Union[float, str] = 150  # mmol/liter
+    # Yield parameters
+    Y_amm_gln: float = 0.9  # -
+    Y_lac_glc: float = 0.25  # -
 
-    Y_amm_gln: float = 2  # -
-    Y_lac_glc: float = 2  # -
-    Y_mab_cell: float = 1e-9  # - value is arbitrary, doesnt work properly as this number is not defined in paper
-
-    perfect_control: bool = True
-    # # Bolus feeding
-    # bolus_size: float = 0.03  # L/h
-    # num_bolus: int = 10  # -
-    # bolus_frequency: float = 24  # hrs
+    # Feed conditions
+    Cglc_feed: typing.Union[float, str] = 150.0  # mmol/liter
+    Cgln_feed: typing.Union[float, str] = 10.0  # mmol/liter
 
     # Ndays to sim
     Ndays: int = 12  # days
-    Nsamples: int = 1  # per day
+    Nsamples: int = 2  # per day
 
     @staticmethod
     def units_map():
@@ -86,23 +81,22 @@ class InputParameters(UnitValidationMixin):
             "Ki_amm": "mmol/L",
             "Ks_glc": "mmol/L",
             "Ks_gln": "mmol/L",
-            "q_mab": "mmol/L/hr",
-            "q_glc_max": "mmol/L/hr",
-            "q_gln_max": "mmol/L/hr",
-            "q_lac_max": "mmol/L/hr",
+            "q_mab": "mg/hr",
+            "q_glc_max": "mmol/hr",
+            "q_gln_max": "mmol/hr",
+            "q_lac_max": "mmol/hr",
             "Cglc_feed": "mmol/L",
             "Cgln_feed": "mmol/L",
-            "mab_time_decay": "1/(hr*(mmol/L)^.2)",
         }
 
 
 @dataclasses.dataclass
 class InitialConditions(UnitValidationMixin):
-    V: float = 50.0 / 1000  # liter
-    Xv: float = 8e9
+    V: float = 40 / 1000  # liter
+    Xv: float = 3e9
     Xt: float = Xv
-    Cglc: float = 100
-    Cgln: float = 100
+    Cglc: float = 150
+    Cgln: float = 10
     Clac: float = EPSILON
     Camm: float = EPSILON
     Cmab: float = EPSILON

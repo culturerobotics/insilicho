@@ -66,7 +66,7 @@ class GrowCHO:
         if plot:
             solver_fn = plotter.solve_and_plot
 
-        state, state_vars, _ = solver_fn(
+        state, state_vars, infodict = solver_fn(
             self.params,
             self.initial_conditions,
             tspan=tspan,
@@ -78,6 +78,8 @@ class GrowCHO:
             state=state, state_vars=state_vars, t=tspan
         )
 
+        print(infodict["message"])
+
         return flex2_sampling(
             state,
             state_vars,
@@ -85,10 +87,6 @@ class GrowCHO:
             tspan,
             sampling_stddev=sampling_stddev,
         )
-
-    @property
-    def full_result(self):
-        return self._full_result
 
 
 def config_parser(cfg_path):
