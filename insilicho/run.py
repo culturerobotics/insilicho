@@ -83,7 +83,7 @@ class GrowCHO:
             info=infodict,
         )
 
-        if infodict["message"] != "Integration Successful.":
+        if infodict["message"] != "Integration successful.":
             raise RuntimeError(
                 "Integration failed at specified params and/or initial values."
             )
