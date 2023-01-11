@@ -36,6 +36,11 @@ class UnitValidationMixin:
         else:
             super().__setattr__(name, val)
 
+    def tolist(self):
+        return [
+            getattr(self, field.name) for field in dataclasses.fields(self)
+        ]
+
 
 @dataclasses.dataclass(order=True)
 class InputParameters(UnitValidationMixin):
@@ -94,7 +99,6 @@ class InputParameters(UnitValidationMixin):
 
 @dataclasses.dataclass
 class InitialConditions(UnitValidationMixin):
-    V: float = 40 / 1000  # liter
     Xv: float = 3e9
     Xt: float = Xv
     Cglc: float = 150
@@ -103,6 +107,7 @@ class InitialConditions(UnitValidationMixin):
     Camm: float = EPSILON
     Cmab: float = EPSILON
     Coxygen: float = Thermodynamics.Csat_oxygen(35)
+    V: float = 40 / 1000  # liter
     pH: float = 7.0
 
     @staticmethod

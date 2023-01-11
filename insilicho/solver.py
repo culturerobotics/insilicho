@@ -1,5 +1,3 @@
-import dataclasses
-
 import numpy as np
 from scipy.integrate import odeint
 
@@ -15,22 +13,8 @@ def solve(
     temp_fn=None,
     solver_hmax=np.inf,
 ):
-    IC = [
-        initial_conditions.Xv,
-        initial_conditions.Xt,
-        initial_conditions.Cglc,
-        initial_conditions.Cgln,
-        initial_conditions.Clac,
-        initial_conditions.Camm,
-        initial_conditions.Cmab,
-        initial_conditions.Coxygen,
-        initial_conditions.V,
-        initial_conditions.pH,
-    ]
-
-    args = []
-    for field in dataclasses.fields(params):
-        args.append(getattr(params, field.name))
+    IC = initial_conditions.tolist()
+    args = params.tolist()
 
     state_model, info = odeint(
         model,
