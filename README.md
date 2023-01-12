@@ -20,7 +20,7 @@ Additional sources include:
 # Usage
 This repo serves as a standalone package, available to install using (or added as a dependency) using:
 
-`pip install -e git+https://github.com/culturerobotics/insilicho#egg=insilicho`
+`pip install insilicho`
 
 # Example
 
