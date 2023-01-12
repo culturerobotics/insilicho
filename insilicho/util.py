@@ -5,6 +5,8 @@ from insilicho import parameters
 
 
 class DataClassUnpack:
+    """A utility function to unpack dataclasses with defaults."""
+
     CACHE: typing.Dict[
         typing.Union[parameters.InputParameters, parameters.InitialConditions],
         typing.Set[str],

@@ -2,7 +2,12 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-def plot(tspan: np.ndarray, state: np.ndarray, state_vars: np.ndarray):
+def plot(tspan: np.ndarray, state: np.ndarray, state_vars: np.ndarray) -> plt.figure:
+    """Default plot for solver
+
+    Returns:
+        plt.figure: A figure object.
+    """
     plt.rcParams["figure.figsize"] = [16, 12]
     fig = plt.figure()
     ax = fig.add_subplot(111)  # The big subplot

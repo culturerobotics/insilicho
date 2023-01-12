@@ -16,8 +16,18 @@ class GrowCHO:
         temp_fn: typing.Optional[growth_model.TempFunctionType],
         random_seed: int = 0,
         param_rel_stddev: float = 0.05,
-        solver_max_step_size=np.inf,
+        solver_max_step_size: float = np.inf,
     ):
+        """Class to simulate CHO growth.
+
+        Args:
+            config (typing.Union[typing.Dict[str, typing.Any], str]): A path to yaml file or a dictionary with initial conditions and parameter values.
+            feed_fn (typing.Optional[growth_model.FeedFunctionType]): A callable describing time dependence of feed profile, expected units for feed rate are in L/h.
+            temp_fn (typing.Optional[growth_model.TempFunctionType]): A callable describing time dependence of temperature profile, expected units for temp are in degC.
+            random_seed (int, optional): random seed to control sampling events. Defaults to 0.
+            param_rel_stddev (float, optional): Relative std deviation while sampling parameter, assumes a normal distribution.. Defaults to 0.05.
+            solver_max_step_size (float, optional): Max step size for the odeint solver to take. Defaults to np.inf.
+        """
         cfg_dict, cfg_path = None, None
         if type(config) == dict:
             cfg_dict = config
@@ -36,7 +46,12 @@ class GrowCHO:
             state=[], state_vars=[], t=[], info={}
         )
 
-    def _randomize_params(self, rel_stddev):
+    def _randomize_params(self, rel_stddev: float):
+        """Randomize parameters for the model.
+
+        Args:
+            rel_stddev (float): Relative std deviation while sampling parameter, assumes a normal distribution.
+        """
         float_params = {
             f.name: getattr(self.params, f.name)
             for f in dataclasses.fields(self.params)
@@ -54,7 +69,22 @@ class GrowCHO:
         initial_conditions: typing.Optional[typing.Dict[str, typing.Any]] = None,
         plot: bool = False,
         sampling_stddev: float = 0.05,
-    ):
+    ) -> typing.Dict[str, typing.Any]:
+        """Execute the GrowCHO model object
+
+        Args:
+            initial_conditions (typing.Optional[typing.Dict[str, typing.Any]], optional): Initial conditions for the solver. Defaults to conditions given in insilicho.parameters.
+            plot (bool, optional): option to plot data using matplotlib. Defaults to False.
+            sampling_stddev (float, optional): scale of error in normal distributed sampling event. Defaults to 0.05.
+
+        Raises:
+            IOError: If temp or feed callables were not supplied.
+            RuntimeError: If integration/LSODA solver runs into failures.
+
+        Returns:
+            typing.Dict[str, typing.Any]: Sampled metabolite, volume and cell concentrations.
+        """
+
         if initial_conditions:
             self.initial_conditions = util.DataClassUnpack.instantiate(
                 parameters.InitialConditions, initial_conditions
@@ -98,6 +128,7 @@ class GrowCHO:
 
     @property
     def full_result(self):
+        """A property to get the full unsampled data."""
         return self._full_result
 
 
@@ -130,12 +161,25 @@ def unpack(cfg_dict=None, cfg_path=None):
 
 
 def flex2_sampling(
-    state,
-    state_vars,
-    params,
-    tspan,
-    sampling_stddev=0.05,
-):
+    state: np.ndarray,
+    state_vars: np.ndarray,
+    params: parameters.InputParameters,
+    tspan: np.ndarray,
+    sampling_stddev: float = 0.05,
+) -> typing.Dict[str, typing.Any]:
+    """Samples datapoints from a simulation output.
+
+    Args:
+        state (np.ndarray): Array of state solutions for all points in tspan.
+        state_vars (np.ndarray): Array of state solutions for all points in tspan.
+        params (parameters.InputParameters): Input parameters for simulation system.
+        tspan (np.ndarray): time array over which the system was solved.
+        sampling_stddev (float, optional): scale of error in normal distributed sampling event. Defaults to 0.05.
+
+    Returns:
+        typing.Dict[str, typing.Any]: Results with sampling.
+    """
+
     Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Coxygen, V, pH = state.transpose()
     Osmolarity = state_vars[:, 9]
     time = tspan.transpose()
