@@ -36,9 +36,7 @@ class UnitValidationMixin:
             super().__setattr__(name, val)
 
     def tolist(self):
-        return [
-            getattr(self, field.name) for field in dataclasses.fields(self)
-        ]
+        return [getattr(self, field.name) for field in dataclasses.fields(self)]
 
 
 @dataclasses.dataclass(order=True)
