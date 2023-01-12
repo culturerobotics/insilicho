@@ -1,5 +1,4 @@
-import dataclasses
-
+import typing
 import numpy as np
 from scipy.integrate import odeint
 
@@ -7,30 +6,22 @@ from insilicho import growth_model, parameters
 
 
 def solve(
-    params: parameters.InputParameters,
-    initial_conditions: parameters.InitialConditions,
+    params: typing.Optional[parameters.InputParameters],
+    initial_conditions: typing.Optional[parameters.InitialConditions],
     model=growth_model.model,
     tspan=np.linspace(0, 288, 10000),
-    feed_fn=None,
-    temp_fn=None,
+    feed_fn: typing.Optional[growth_model.FeedFunctionType] = None,
+    temp_fn: typing.Optional[growth_model.TempFunctionType] = None,
     solver_hmax=np.inf,
 ):
-    IC = [
-        initial_conditions.Xv,
-        initial_conditions.Xt,
-        initial_conditions.Cglc,
-        initial_conditions.Cgln,
-        initial_conditions.Clac,
-        initial_conditions.Camm,
-        initial_conditions.Cmab,
-        initial_conditions.Coxygen,
-        initial_conditions.V,
-        initial_conditions.pH,
-    ]
+    # Use default InputParameters and InitialConditions if not provided
+    if params is None:
+        params = parameters.InputParameters()
+    if initial_conditions is None:
+        initial_conditions = parameters.InitialConditions()
 
-    args = []
-    for field in dataclasses.fields(params):
-        args.append(getattr(params, field.name))
+    IC = initial_conditions.tolist()
+    args = params.tolist()
 
     state_model, info = odeint(
         model,

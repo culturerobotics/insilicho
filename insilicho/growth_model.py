@@ -1,9 +1,14 @@
 # mypy: disable-error-code=operator
 
+import typing
 import numpy as np
 
-from insilicho import chemistry, parameters
-from insilicho.chemistry import Species, Thermodynamics
+from insilicho import parameters
+from insilicho.chemistry import Species
+
+
+FeedFunctionType = typing.Callable[[float], float]
+TempFunctionType = typing.Callable[[float], float]
 
 
 def exponential_dependence_around_optima(
@@ -16,7 +21,8 @@ def exponential_dependence_around_optima(
     Args:
         x (float): value of a variable.
         optima (float): Optimal value for a variable.
-        spread (float, optional): Spread around the optimal, sets rate of decay. Defaults to 1.0.
+        spread (float, optional): Spread around the optimal, sets rate of decay.
+            Defaults to 1.0.
 
     Returns:
         float: Number between 0 and 1 indicating distance from optima.
@@ -28,8 +34,8 @@ def state_vars(
     t,
     state,
     params: parameters.InputParameters,
-    feed_fn=None,
-    temp_fn=None,
+    feed_fn: typing.Optional[FeedFunctionType] = None,
+    temp_fn: typing.Optional[TempFunctionType] = None,
 ):
 
     # state
@@ -112,8 +118,8 @@ def model(
     t,
     state,
     args,
-    feed_fn,
-    temp_fn,
+    feed_fn: typing.Optional[FeedFunctionType],
+    temp_fn: typing.Optional[TempFunctionType],
 ):
     # params repacking
     params = parameters.InputParameters(*args)

@@ -30,7 +30,7 @@ def model_obj():
 
 
 class TestBolusFeed:
-    def test_solver_with_bolus(self, model_obj):
+    def test_solver_with_bolus(self, model_obj: run.GrowCHO):
         model_obj.execute(plot=False)
 
         assert model_obj.full_result.info["message"] == "Integration successful."
