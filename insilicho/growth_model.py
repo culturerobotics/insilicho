@@ -1,11 +1,11 @@
 # mypy: disable-error-code=operator
 
 import typing
+
 import numpy as np
 
 from insilicho import parameters
 from insilicho.chemistry import Species
-
 
 FeedFunctionType = typing.Callable[[float], float]
 TempFunctionType = typing.Callable[[float], float]
@@ -27,7 +27,7 @@ def exponential_dependence_around_optima(
     Returns:
         float: Number between 0 and 1 indicating distance from optima.
     """
-    return np.exp((x - optima) ** 2.0 / spread)
+    return np.exp(-((x - optima) ** 2.0) / spread**2.0)
 
 
 def state_vars(
@@ -65,9 +65,12 @@ def state_vars(
             * params.Ki_amm
             / (Camm + params.Ki_amm)
         )
-        * exponential_dependence_around_optima(T, 37.0, 3.12)
-        * exponential_dependence_around_optima(pH, 6.99, 0.80)
+        * exponential_dependence_around_optima(
+            T, 36.4, 3.12
+        )  # This comes from Carcano et al.
+        * exponential_dependence_around_optima(pH, 6.99, 1.00)  # This is arbitrary
     )
+    # TODO: make these optima and spread parameters
 
     mu_d = params.mu_d_min + (
         params.mu_d_max

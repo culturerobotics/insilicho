@@ -1,7 +1,7 @@
 ![tests](https://github.com/culturerobotics/insilicho/actions/workflows/python_tests.yml/badge.svg)
 ![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)
 
-# in-silic(H)o
+# InSiliCHO
 A model to capture CHO dynamics in-silico.  An accompanying streamlit app to try the model out is [available](https://culturebio-insilicho.streamlit.app/). 
 
 Model is based on the following primary sources:
@@ -20,4 +20,31 @@ Additional sources include:
 # Usage
 This repo serves as a standalone package, available to install using (or added as a dependency) using:
 
-`pip install -e git+https://github.com/culturerobotics/insilicho#egg=insilicho`
+`pip install insilicho`
+
+# Example
+
+```python
+
+  from insilicho import run
+
+  def T(time):
+      """returns temperature in degC"""
+      return 36.4
+
+  def F(time):
+      """returns flow rate in L/hr"""
+      return 0.003
+
+  model = run.GrowCHO(
+      {"parameters": {"K_lys": "0.05 1/h"}},
+      feed_fn=F,
+      temp_fn=T,
+  )
+
+  model.execute(plot=True, initial_conditions={"V": "50 mL"})
+  
+  final_vol = model.full_result.state[-1, 8]
+  print(final_V) # 0.914L
+
+```
