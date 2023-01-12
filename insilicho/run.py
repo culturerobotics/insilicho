@@ -170,10 +170,10 @@ def flex2_sampling(
     """Samples datapoints from a simulation output.
 
     Args:
-        state (np.ndarray): Array of state solutions for all points in tspan.
-        state_vars (np.ndarray): Array of state solutions for all points in tspan.
+        state (np.ndarray): Array of state solutions (Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Coxygen, V, pH) for all points in tspan.
+        state_vars (np.ndarray): Array of state variable (F, T, mu, mu_d, q_glc, q_gln, q_lac, q_amm, q_mab, Osmolarity) solutions for all points in tspan.
         params (parameters.InputParameters): Input parameters for simulation system.
-        tspan (np.ndarray): time array over which the system was solved.
+        tspan (np.ndarray): time array (in hours) over which the system was solved.
         sampling_stddev (float, optional): scale of error in normal distributed sampling event. Defaults to 0.05.
 
     Returns:

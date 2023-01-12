@@ -70,6 +70,7 @@ def state_vars(
         )  # This comes from Carcano et al.
         * exponential_dependence_around_optima(pH, 6.99, 1.00)  # This is arbitrary
     )
+    # TODO: make these optima and spread parameters
 
     mu_d = params.mu_d_min + (
         params.mu_d_max
