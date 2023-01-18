@@ -177,7 +177,7 @@ def flex2_sampling(
         sampling_stddev (float, optional): scale of error in normal distributed sampling event. Defaults to 0.05.
 
     Returns:
-        typing.Dict[str, typing.Any]: Results with sampling.
+        typing.Dict[str, typing.Any]: Results from sampling i.e., Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Osmolarity and time.
     """
 
     Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Coxygen, V, pH = state.transpose()
@@ -186,6 +186,7 @@ def flex2_sampling(
     res_map = {
         "time": time,  # hrs
         "Xv": Xv * 1e-9,  # viable cells (millions/mL conversion)
+        "Xt": Xt * 1e-9,  # total cells (millions/mL conversion)
         "Cglc": Cglc,  # mmol
         "Cgln": Cgln,
         "Clac": Clac,
