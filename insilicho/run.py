@@ -192,6 +192,9 @@ def flex2_sampling(
         "Clac": Clac,
         "Camm": Camm,
         "Cmab": Cmab,
+        "Coxygen": Coxygen,
+        "V": V,
+        "pH": pH,
         "Osmolarity": Osmolarity,
     }
     res = {}
