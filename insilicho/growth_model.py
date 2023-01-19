@@ -30,13 +30,47 @@ def exponential_dependence_around_optima(
     return np.exp(-((x - optima) ** 2.0) / spread**2.0)
 
 
+AUXILIARY_CONDITIONS = [
+    "F",
+    "T",
+    "mu",
+    "mu_d",
+    "q_glc",
+    "q_gln",
+    "q_lac",
+    "q_amm",
+    "q_mab",
+    "Osmolarity",
+]
+
+
 def state_vars(
-    t,
-    state,
+    t: float,
+    state: np.ndarray,
     params: parameters.InputParameters,
     feed_fn: typing.Optional[FeedFunctionType] = None,
     temp_fn: typing.Optional[TempFunctionType] = None,
-):
+) -> typing.Tuple[float]:
+    """Variables related to state (species and condition) but are not solved for in the
+    ODE system.
+
+    Args:
+        t (float): Time point to evaluate on.
+        state (np.ndarray): Current states (e.g. Xv, Cglc). Must follow order specified
+            in parameters.InitialConditions.
+        params (parameters.InputParameters): Parameters of GrowCHO model.
+        feed_fn (typing.Optional[FeedFunctionType], optional): Callable describing feed
+            profile. Defaults to None.
+        temp_fn (typing.Optional[TempFunctionType], optional): Callable describing temp
+            profile. Defaults to None.
+
+    Raises:
+        IOError: Raised if `feed_fn` or `temp_fn` are not provided.
+
+    Returns:
+        typing.Tuple[float]: Returns a tuple of floats with variables, as outlined in
+            growth_model.AUXILIARY_CONDITIONS.
+    """
 
     # state
     Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Coxygen, V, pH = state
