@@ -50,7 +50,7 @@ def state_vars(
     params: parameters.InputParameters,
     feed_fn: typing.Optional[FeedFunctionType] = None,
     temp_fn: typing.Optional[TempFunctionType] = None,
-) -> typing.Tuple[float]:
+):
     """Variables related to state (species and condition) but are not solved for in the
     ODE system.
 
