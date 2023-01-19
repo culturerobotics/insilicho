@@ -8,6 +8,12 @@ import yaml
 from insilicho import growth_model, parameters, plotter, solver, util
 
 
+INTEGRATION_SUCCESS_MESSAGES = [
+    "Integration successful.",
+    "The solver successfully reached the end of the integration interval.",
+]
+
+
 class GrowCHO:
     def __init__(
         self,
@@ -113,7 +119,7 @@ class GrowCHO:
             info=infodict,
         )
 
-        if infodict["message"] != "Integration successful.":
+        if infodict["message"] not in INTEGRATION_SUCCESS_MESSAGES:
             raise RuntimeError(
                 "Integration failed at specified params and/or initial values."
             )
@@ -177,7 +183,8 @@ def flex2_sampling(
         sampling_stddev (float, optional): scale of error in normal distributed sampling event. Defaults to 0.05.
 
     Returns:
-        typing.Dict[str, typing.Any]: Results from sampling i.e., Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Osmolarity and time.
+        typing.Dict[str, typing.Any]: Results from sampling i.e., Xv, Xt, Cglc, Cgln,
+            Clac, Camm, Cmab, Osmolarity and time.
     """
 
     Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Coxygen, V, pH = state.transpose()

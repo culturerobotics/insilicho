@@ -52,7 +52,9 @@ class TestBolusFeed:
     def test_solver_with_bolus_feed(self, bolus_feed: run.GrowCHO):
         bolus_feed.execute(plot=False)
 
-        assert bolus_feed.full_result.info["message"] == "Integration successful."
+        assert (
+            bolus_feed.full_result.info["message"] in run.INTEGRATION_SUCCESS_MESSAGES
+        )
         # Ending concentrations
         assert (bolus_feed.full_result.state[-1, 0]) * 1e-9 == pytest.approx(
             26.5, rel=0.005
@@ -69,7 +71,10 @@ class TestConstantFeed:
     def test_solver_with_constant_feed(self, constant_feed: run.GrowCHO):
         constant_feed.execute(plot=False)
 
-        assert constant_feed.full_result.info["message"] == "Integration successful."
+        assert (
+            constant_feed.full_result.info["message"]
+            in run.INTEGRATION_SUCCESS_MESSAGES
+        )
         # Ending concentrations
         assert (constant_feed.full_result.state[-1, 0]) * 1e-9 == pytest.approx(
             60.9, rel=0.005

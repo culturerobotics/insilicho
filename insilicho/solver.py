@@ -1,7 +1,7 @@
 import typing
 
 import numpy as np
-from scipy.integrate import odeint
+from scipy.integrate import solve_ivp
 
 from insilicho import growth_model, parameters
 
@@ -43,20 +43,24 @@ def solve(
     IC = initial_conditions.tolist()
     args = params.tolist()
 
-    state_model, info = odeint(
+    # state_model, info
+    ret = solve_ivp(
         model,
-        IC,
-        tspan,
-        (
+        t_span=(min(tspan), max(tspan)),
+        y0=IC,
+        method="DOP853",
+        t_eval=tspan,
+        args=(
             args,
             feed_fn,
             temp_fn,
         ),
-        tfirst=True,
-        printmessg=False,
-        full_output=True,
-        hmax=solver_hmax,
+        max_step=solver_hmax,
     )
+
+    info = ret
+    state_model = ret.y.T
+
     state_vars = []
     for i in range(len(tspan)):
         state_vars.append(
