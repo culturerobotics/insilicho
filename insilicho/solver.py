@@ -19,12 +19,18 @@ def solve(
 
     Args:
         params (parameters.InputParameters): Parameters for the model.
-        initial_conditions (parameters.InitialConditions): Initial conditions for the solver.
-        model (growth_model.model, optional): Differential equations to solve. Defaults to growth_model.model.
-        tspan (List, optional): time array (in hrs) over which to solve the system. Defaults to np.linspace(0, 288, 10000).
-        feed_fn (growth_model.FeedFunctionType, optional): Callable describing feed profile. Defaults to None.
-        temp_fn (growth_model.TempFunctionType, optional): Callable describing temp profile. Defaults to None.
-        solver_hmax (float, optional): max step size solver can take. Defaults to np.inf.
+        initial_conditions (parameters.InitialConditions): Initial conditions for the
+            solver.
+        model (growth_model.model, optional): Differential equations to solve. Defaults
+            to growth_model.model.
+        tspan (List, optional): time array (in hrs) over which to solve the system.
+            Defaults to np.linspace(0, 288, 10000).
+        feed_fn (growth_model.FeedFunctionType, optional): Callable describing feed
+            profile. Defaults to None.
+        temp_fn (growth_model.TempFunctionType, optional): Callable describing temp
+            profile. Defaults to None.
+        solver_hmax (float, optional): max step size solver can take. Defaults to
+            np.inf.
 
     Returns:
         state_model: Array of state solutions for all points in tspan.
