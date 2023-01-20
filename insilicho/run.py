@@ -207,12 +207,12 @@ def flex2_sampling(
     # sample across small time range, add noise
     for k, var in res_map.items():
         var = np.maximum(var, parameters.EPSILON)
-        if k == "time":
+        if k in ["time", "V"]:
             res[k] = var[idx].tolist()
         else:
             res[k] = np.maximum(
-                np.random.normal(
-                    loc=var[idx], scale=float(sampling_stddev), size=len(idx)
+                var[idx] * np.random.normal(
+                    loc=1.0, scale=float(sampling_stddev), size=len(idx)
                 ),
                 parameters.EPSILON,
             ).tolist()
