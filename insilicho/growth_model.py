@@ -30,20 +30,6 @@ def exponential_dependence_around_optima(
     return np.exp(-((x - optima) ** 2.0) / spread**2.0)
 
 
-AUXILIARY_CONDITIONS = [
-    "F",
-    "T",
-    "mu",
-    "mu_d",
-    "q_glc",
-    "q_gln",
-    "q_lac",
-    "q_amm",
-    "q_mab",
-    "Osmolarity",
-]
-
-
 def state_vars(
     t: float,
     state: np.ndarray,
@@ -68,8 +54,17 @@ def state_vars(
         ValueError: Raised if `feed_fn` or `temp_fn` are not provided.
 
     Returns:
-        typing.Tuple[float]: Returns a tuple of floats with variables, as outlined in
-            growth_model.AUXILIARY_CONDITIONS.
+        typing.Tuple[float]: Returns a tuple of floats of the following variables:
+            - F
+            - T
+            - mu
+            - mu_d
+            - q_glc
+            - q_gln
+            - q_lac
+            - q_amm
+            - q_mab
+            - Osmolarity
     """
 
     # state
