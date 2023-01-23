@@ -65,7 +65,7 @@ def state_vars(
             profile. Defaults to None.
 
     Raises:
-        IOError: Raised if `feed_fn` or `temp_fn` are not provided.
+        ValueError: Raised if `feed_fn` or `temp_fn` are not provided.
 
     Returns:
         typing.Tuple[float]: Returns a tuple of floats with variables, as outlined in
@@ -76,7 +76,7 @@ def state_vars(
     Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Coxygen, V, pH = state
 
     if not feed_fn or not temp_fn:
-        raise IOError("feed/temp model missing")
+        raise ValueError("feed/temp model missing")
 
     F = feed_fn(t)
     T = temp_fn(t)

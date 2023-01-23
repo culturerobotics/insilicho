@@ -91,7 +91,7 @@ class GrowCHO:
                 sampling event. Defaults to 0.05.
 
         Raises:
-            IOError: If temp or feed callables were not supplied.
+            IOError: If initial conditions were not supplied.
             RuntimeError: If integration/LSODA solver runs into failures.
 
         Returns:
