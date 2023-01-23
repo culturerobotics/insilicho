@@ -25,5 +25,5 @@ class TestGrowthModel:
         )
 
     def test_missing_fns_raise_errors(self):
-        with pytest.raises(IOError):
+        with pytest.raises(ValueError):
             assert growth_model.state_vars(1, ([1] * 10), parameters.InputParameters)
