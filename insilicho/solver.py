@@ -54,7 +54,8 @@ def solve(
         model,
         t_span=(min(tspan), max(tspan)),
         y0=IC,
-        method="DOP853",
+        # method="DOP853",
+        method="RK45",
         t_eval=tspan,
         args=(
             args,
