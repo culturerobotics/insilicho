@@ -31,18 +31,47 @@ def exponential_dependence_around_optima(
 
 
 def state_vars(
-    t,
-    state,
+    t: float,
+    state: np.ndarray,
     params: parameters.InputParameters,
     feed_fn: typing.Optional[FeedFunctionType] = None,
     temp_fn: typing.Optional[TempFunctionType] = None,
 ):
+    """Variables related to state (species and condition) but are not solved for in the
+    ODE system.
+
+    Args:
+        t (float): Time point to evaluate on.
+        state (np.ndarray): Current states (e.g. Xv, Cglc). Must follow order specified
+            in parameters.InitialConditions.
+        params (parameters.InputParameters): Parameters of GrowCHO model.
+        feed_fn (typing.Optional[FeedFunctionType], optional): Callable describing feed
+            profile. Defaults to None.
+        temp_fn (typing.Optional[TempFunctionType], optional): Callable describing temp
+            profile. Defaults to None.
+
+    Raises:
+        ValueError: Raised if `feed_fn` or `temp_fn` are not provided.
+
+    Returns:
+        typing.Tuple[float]: Returns a tuple of floats of the following variables:
+            - F
+            - T
+            - mu
+            - mu_d
+            - q_glc
+            - q_gln
+            - q_lac
+            - q_amm
+            - q_mab
+            - Osmolarity
+    """
 
     # state
     Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Coxygen, V, pH = state
 
     if not feed_fn or not temp_fn:
-        raise IOError("feed/temp model missing")
+        raise ValueError("feed/temp model missing")
 
     F = feed_fn(t)
     T = temp_fn(t)
