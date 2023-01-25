@@ -8,6 +8,32 @@ import yaml
 from insilicho import growth_model, parameters, plotter, solver, util
 
 
+def add_relative_normal_noise(
+    a: typing.Union[np.ndarray, float, int], relative_std_dev: float
+) -> np.ndarray:
+    """_summary_
+
+    Args:
+        a (typing.Union[np.ndarray, float, int]): Original value(s) that will act as
+            means.
+        relative_std_dev (float): Relative standard deviation. The resulting noise
+            sample will be taken from a normal distribution of mean = 1, standard
+            deviation = `relative_std_dev`. The noise sample(s) will then be multiplied
+            to value(s) in `a`.
+
+    Returns:
+        np.ndarray: an array of values with added noise.
+    """
+    if isinstance(a, float) or isinstance(a, int):
+        array = np.array([a])
+    else:
+        array = a
+
+    return array * np.random.normal(
+        loc=1.0, scale=float(relative_std_dev), size=len(array)
+    )
+
+
 class GrowCHO:
     def __init__(
         self,
@@ -70,7 +96,7 @@ class GrowCHO:
             )
         }
         for pname, pval in float_params.items():
-            new_val = np.random.normal(loc=pval, scale=rel_stddev * pval)
+            new_val = add_relative_normal_noise(pval, rel_stddev)[0]
             setattr(self.params, pname, new_val)
 
     def execute(
@@ -88,7 +114,7 @@ class GrowCHO:
             plot (bool, optional): option to plot data using matplotlib. Defaults to
                 False.
             sampling_stddev (float, optional): scale of error in normal distributed
-                sampling event. Defaults to 0.05.
+                sampling event, relative to sample magnitude. Defaults to 0.05.
 
         Raises:
             IOError: If initial conditions were not supplied.
@@ -137,7 +163,7 @@ class GrowCHO:
             state_vars,
             self.params,
             tspan,
-            sampling_stddev=sampling_stddev,
+            sampling_rel_stddev=sampling_stddev,
         )
 
     @property
@@ -179,7 +205,7 @@ def flex2_sampling(
     state_vars: np.ndarray,
     params: parameters.InputParameters,
     tspan: np.ndarray,
-    sampling_stddev: float = 0.05,
+    sampling_rel_stddev: float = 0.05,
 ) -> typing.Dict[str, typing.Any]:
     """Samples datapoints from a simulation output.
 
@@ -190,11 +216,12 @@ def flex2_sampling(
             q_lac, q_amm, q_mab, Osmolarity) solutions for all points in tspan.
         params (parameters.InputParameters): Input parameters for simulation system.
         tspan (np.ndarray): time array (in hours) over which the system was solved.
-        sampling_stddev (float, optional): scale of error in normal distributed sampling
-            event. Defaults to 0.05.
+        sampling_rel_stddev (float, optional): scale of error in normal distributed
+            sampling event, relative to sample magnitude. Defaults to 0.05.
 
     Returns:
-        typing.Dict[str, typing.Any]: Results from sampling i.e., Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Osmolarity and time.
+        typing.Dict[str, typing.Any]: Results from sampling i.e., Xv, Xt, Cglc, Cgln,
+            Clac, Camm, Cmab, Osmolarity and time.
     """
 
     Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Coxygen, V, pH = state.transpose()
@@ -224,13 +251,11 @@ def flex2_sampling(
     # sample across small time range, add noise
     for k, var in res_map.items():
         var = np.maximum(var, parameters.EPSILON)
-        if k == "time":
+        if k in ["time", "V"]:
             res[k] = var[idx].tolist()
         else:
             res[k] = np.maximum(
-                np.random.normal(
-                    loc=var[idx], scale=float(sampling_stddev), size=len(idx)
-                ),
+                add_relative_normal_noise(var[idx], sampling_rel_stddev),
                 parameters.EPSILON,
             ).tolist()
 
