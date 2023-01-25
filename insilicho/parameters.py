@@ -61,8 +61,8 @@ class InputParameters(UnitValidationMixin):
     q_lac_max: typing.Union[float, str] = 0.2e-9  # mmol/cell/hour
 
     # Yield parameters
-    Y_amm_gln: typing.Union[float, str] = 0.9  # -
-    Y_lac_glc: typing.Union[float, str] = 0.25  # -
+    Y_amm_gln: typing.Union[float, str] = 0.9  # dimensionless (mol amm/ mol gln)
+    Y_lac_glc: typing.Union[float, str] = 0.25  # dimensionless (mol lac/ mol glc)
 
     # Feed conditions
     Cglc_feed: typing.Union[float, str] = 150.0  # mmol/liter
@@ -89,6 +89,8 @@ class InputParameters(UnitValidationMixin):
             "q_glc_max": "mmol/hr",
             "q_gln_max": "mmol/hr",
             "q_lac_max": "mmol/hr",
+            "Y_amm_gln": "dimensionless",
+            "Y_lac_glc": "dimensionless",
             "Cglc_feed": "mmol/L",
             "Cgln_feed": "mmol/L",
         }
