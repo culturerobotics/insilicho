@@ -61,8 +61,8 @@ class InputParameters(UnitValidationMixin):
     q_lac_max: typing.Union[float, str] = 0.2e-9  # mmol/cell/hour
 
     # Yield parameters
-    Y_amm_gln: float = 0.9  # -
-    Y_lac_glc: float = 0.25  # -
+    Y_amm_gln: typing.Union[float, str] = 0.9  # -
+    Y_lac_glc: typing.Union[float, str] = 0.25  # -
 
     # Feed conditions
     Cglc_feed: typing.Union[float, str] = 150.0  # mmol/liter
