@@ -64,6 +64,12 @@ class InputParameters(UnitValidationMixin):
     Y_amm_gln: typing.Union[float, str] = 0.9  # dimensionless (mol amm/ mol gln)
     Y_lac_glc: typing.Union[float, str] = 0.25  # dimensionless (mol lac/ mol glc)
 
+    # Optimal growth parameters
+    T_optimal_for_growth: typing.Union[float, str] = 36.4
+    T_spread_around_optima: typing.Union[float, str] = 3.12
+    pH_optimal_for_growth: typing.Union[float, str] = 6.99
+    pH_spread_around_optima: typing.Union[float, str] = 1.0
+
     # Feed conditions
     Cglc_feed: typing.Union[float, str] = 150.0  # mmol/liter
     Cgln_feed: typing.Union[float, str] = 10.0  # mmol/liter
@@ -71,6 +77,7 @@ class InputParameters(UnitValidationMixin):
     # Ndays to sim
     Ndays: int = 12  # days
     Nsamples: int = 2  # per day
+    starting_day: int = 0  # starting day for sim
 
     @staticmethod
     def units_map():
@@ -93,6 +100,10 @@ class InputParameters(UnitValidationMixin):
             "Y_lac_glc": "dimensionless",
             "Cglc_feed": "mmol/L",
             "Cgln_feed": "mmol/L",
+            "T_optimal_for_growth": "degC",
+            "T_spread_around_optima": "degC",
+            "pH_optimal_for_growth": "dimensionless",
+            "pH_spread_around_optima": "dimensionless",
         }
 
 

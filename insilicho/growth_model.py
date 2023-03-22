@@ -95,9 +95,11 @@ def state_vars(
             / (Camm + params.Ki_amm)
         )
         * exponential_dependence_around_optima(
-            T, 36.4, 3.12
+            T, params.T_optimal_for_growth, params.T_spread_around_optima
         )  # This comes from Carcano et al.
-        * exponential_dependence_around_optima(pH, 6.99, 1.00)  # This is arbitrary
+        * exponential_dependence_around_optima(
+            pH, params.pH_optimal_for_growth, params.pH_spread_around_optima
+        )  # This is arbitrary
     )
     # TODO: make these optima and spread parameters
 

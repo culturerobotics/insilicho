@@ -133,7 +133,12 @@ class GrowCHO:
         if not self.initial_conditions:
             raise IOError("Initial conditions undefined for sim")
 
-        tspan = np.linspace(0, 24 * self.params.Ndays, 1000 * self.params.Ndays)
+        tmin = 24 * self.params.starting_day
+        tspan = np.linspace(
+            tmin,
+            tmin + 24 * self.params.Ndays,
+            1000 * self.params.Ndays,
+        )
 
         state, state_vars, infodict = solver.solve(
             self.params,
