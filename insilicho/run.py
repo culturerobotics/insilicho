@@ -1,3 +1,4 @@
+import dataclasses
 import types
 import typing
 
@@ -86,10 +87,21 @@ class GrowCHO:
             rel_stddev (float): Relative std deviation while sampling parameter, assumes
                 a normal distribution.
         """
-        noisy_params = util.params_with_noise(self)
+        noisy_params = self.params_with_noise()
         for pname, pval in noisy_params.items():
             new_val = add_relative_normal_noise(pval, rel_stddev)[0]
             setattr(self.params, pname, new_val)
+
+    def params_with_noise(self):
+        """Currently we add noise to a subset of params"""
+        return {
+            f.name: getattr(self.params, f.name)
+            for f in dataclasses.fields(self.params)
+            if (
+                f.type == typing.Union[float, str]
+                and f.name not in ["Cglc_feed", "Cgln_feed"]
+            )
+        }
 
     def execute(
         self,

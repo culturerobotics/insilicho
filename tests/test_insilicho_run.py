@@ -59,7 +59,7 @@ class TestGrowCHO:
         grow_cho_copy._randomize_params(0.05)
         new_params = copy.copy(grow_cho_copy.params)
 
-        noisy_params = util.params_with_noise(constant_feed)
+        noisy_params = constant_feed.params_with_noise()
 
         for f, v1, v2 in zip(
             dataclasses.fields(grow_cho_copy.params),
