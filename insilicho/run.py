@@ -99,7 +99,7 @@ class GrowCHO:
             for f in dataclasses.fields(self.params)
             if (
                 f.type == typing.Union[float, str]
-                and f.name not in ["Cglc_feed", "Cgln_feed"]
+                and f.name not in ["Cglc_feed", "Cgln_feed", "T_optimal"]
             )
         }
 

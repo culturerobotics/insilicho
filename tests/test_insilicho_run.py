@@ -4,7 +4,7 @@ import dataclasses
 import numpy as np
 import pytest
 
-from insilicho import run, util
+from insilicho import run
 
 
 class TestInsilichoRun:

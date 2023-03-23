@@ -12,9 +12,7 @@ TempFunctionType = typing.Callable[[float], float]
 
 
 def exponential_dependence_around_optima(
-    x: float,
-    optima: float,
-    spread: float = 1.0,
+    x: float, optima: float, spread: float = 1.0
 ) -> float:
     """Function that decays both side of an optimal value.
 
@@ -95,10 +93,10 @@ def state_vars(
             / (Camm + params.Ki_amm)
         )
         * exponential_dependence_around_optima(
-            T, params.T_optimal, params.T_optimal_decay_spread
+            T, params.T_optimal, params.T_optimal_decay_spread  # type: ignore[arg-type]
         )  # This comes from Carcano et al.
         * exponential_dependence_around_optima(
-            pH, params.pH_optimal, params.pH_optimal_decay_spread
+            pH, params.pH_optimal, params.pH_optimal_decay_spread  # type: ignore[arg-type]
         )  # This is arbitrary
     )
     # TODO: make these optima and spread parameters

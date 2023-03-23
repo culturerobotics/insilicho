@@ -10,13 +10,13 @@ class TestBolusFeed:
         assert bolus_feed.full_result.info["message"] == "Integration successful."
         # Ending concentrations
         assert (bolus_feed.full_result.state[-1, 0]) * 1e-9 == pytest.approx(
-            26.1, rel=0.005
+            25.94, rel=0.005
         )  # Xv
         assert (bolus_feed.full_result.state[-1, 1]) * 1e-9 == pytest.approx(
-            26.7, rel=0.005
+            26.5, rel=0.005
         )  # Xt
         assert (bolus_feed.full_result.state[-1, 2]) == pytest.approx(
-            35.7, rel=0.005
+            36.63, rel=0.005
         )  # CGlc
 
 
@@ -27,13 +27,13 @@ class TestConstantFeed:
         assert constant_feed.full_result.info["message"] == "Integration successful."
         # Ending concentrations
         assert (constant_feed.full_result.state[-1, 0]) * 1e-9 == pytest.approx(
-            60.1, rel=0.005
+            59.6, rel=0.005
         )  # Xv
         assert (constant_feed.full_result.state[-1, 1]) * 1e-9 == pytest.approx(
-            63.9, rel=0.005
+            63.2, rel=0.005
         )  # Xt
         assert (constant_feed.full_result.state[-1, 2]) == pytest.approx(
-            0.069, rel=0.005
+            0.070, rel=0.005
         )  # CGlc
 
     def test_example(self):
