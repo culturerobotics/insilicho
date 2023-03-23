@@ -1,5 +1,6 @@
 import copy
 import dataclasses
+
 import numpy as np
 import pytest
 
@@ -58,12 +59,12 @@ class TestGrowCHO:
         grow_cho_copy._randomize_params(0.05)
         new_params = copy.copy(grow_cho_copy.params)
 
-        allow_list = ["Cglc_feed", "Cgln_feed", "Ndays", "Nsamples"]
+        noisy_params = constant_feed.params_with_noise()
 
         for f, v1, v2 in zip(
             dataclasses.fields(grow_cho_copy.params),
             original_params.tolist(),
             new_params.tolist(),
         ):
-            if f.name not in allow_list:
+            if f.name in noisy_params:
                 assert v1 != v2

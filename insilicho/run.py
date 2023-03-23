@@ -87,23 +87,36 @@ class GrowCHO:
             rel_stddev (float): Relative std deviation while sampling parameter, assumes
                 a normal distribution.
         """
-        float_params = {
+        noisy_params = self.params_with_noise()
+        for pname, pval in noisy_params.items():
+            new_val = add_relative_normal_noise(pval, rel_stddev)[0]
+            setattr(self.params, pname, new_val)
+
+    def params_with_noise(self):
+        """Currently we add noise to a subset of params"""
+        return {
             f.name: getattr(self.params, f.name)
             for f in dataclasses.fields(self.params)
             if (
                 f.type == typing.Union[float, str]
-                and f.name not in ["Cglc_feed", "Cgln_feed"]
+                and f.name
+                not in [
+                    "Cglc_feed",
+                    "Cgln_feed",
+                    "T_optimal",
+                    "T_optimal_decay_spread",
+                    "pH_optimal",
+                    "pH_optimal_decay_spread",
+                ]
             )
         }
-        for pname, pval in float_params.items():
-            new_val = add_relative_normal_noise(pval, rel_stddev)[0]
-            setattr(self.params, pname, new_val)
 
     def execute(
         self,
         initial_conditions: typing.Optional[typing.Dict[str, typing.Any]] = None,
         plot: bool = False,
         sampling_stddev: float = 0.05,
+        starting_at_day: int = 0,
     ) -> typing.Dict[str, typing.Any]:
         """Execute the GrowCHO model object
 
@@ -115,6 +128,8 @@ class GrowCHO:
                 False.
             sampling_stddev (float, optional): scale of error in normal distributed
                 sampling event, relative to sample magnitude. Defaults to 0.05.
+            starting_at_day (int, optional): day at which to start the simulation.
+                Defaults to 0.
 
         Raises:
             IOError: If initial conditions were not supplied.
@@ -123,6 +138,7 @@ class GrowCHO:
         Returns:
             typing.Dict[str, typing.Any]: Sampled metabolite, volume and cell
                 concentrations.
+
         """
 
         if initial_conditions:
@@ -133,7 +149,12 @@ class GrowCHO:
         if not self.initial_conditions:
             raise IOError("Initial conditions undefined for sim")
 
-        tspan = np.linspace(0, 24 * self.params.Ndays, 1000 * self.params.Ndays)
+        tmin = starting_at_day * 24
+        tspan = np.linspace(
+            tmin,
+            tmin + 24 * self.params.Ndays,
+            1000 * self.params.Ndays,
+        )
 
         state, state_vars, infodict = solver.solve(
             self.params,
