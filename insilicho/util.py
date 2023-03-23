@@ -25,3 +25,15 @@ class DataClassUnpack:
         return cls_inst(
             **{k: v for k, v in arg_dict.items() if k in cls.CACHE[cls_inst]}
         )
+
+
+def params_with_noise(cls):
+    """Currently we add noise to a subset of params"""
+    return {
+        f.name: getattr(cls.params, f.name)
+        for f in dataclasses.fields(cls.params)
+        if (
+            f.type == typing.Union[float, str]
+            and f.name not in ["Cglc_feed", "Cgln_feed"]
+        )
+    }

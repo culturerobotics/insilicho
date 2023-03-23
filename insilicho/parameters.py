@@ -68,6 +68,12 @@ class InputParameters(UnitValidationMixin):
     Cglc_feed: typing.Union[float, str] = 150.0  # mmol/liter
     Cgln_feed: typing.Union[float, str] = 10.0  # mmol/liter
 
+    # Optimal
+    T_optimal: float = 36.40
+    T_optimal_decay_spread: float = 3.12
+    pH_optimal: float = 6.99
+    pH_optimal_decay_spread = 1.00
+
     # Ndays to sim
     Ndays: int = 12  # days
     Nsamples: int = 2  # per day
