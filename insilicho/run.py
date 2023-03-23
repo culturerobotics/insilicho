@@ -99,7 +99,15 @@ class GrowCHO:
             for f in dataclasses.fields(self.params)
             if (
                 f.type == typing.Union[float, str]
-                and f.name not in ["Cglc_feed", "Cgln_feed", "T_optimal"]
+                and f.name
+                not in [
+                    "Cglc_feed",
+                    "Cgln_feed",
+                    "T_optimal",
+                    "T_optimal_decay_spread",
+                    "pH_optimal",
+                    "pH_optimal_decay_spread",
+                ]
             )
         }
 
@@ -120,7 +128,7 @@ class GrowCHO:
                 False.
             sampling_stddev (float, optional): scale of error in normal distributed
                 sampling event, relative to sample magnitude. Defaults to 0.05.
-            starting_at_day (int, optional): day at which to start the simulation. 
+            starting_at_day (int, optional): day at which to start the simulation.
                 Defaults to 0.
 
         Raises:
