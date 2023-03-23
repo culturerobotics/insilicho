@@ -3,4 +3,4 @@ import insilicho as package
 
 class TestSuite:
     def test_version(self) -> None:
-        assert package.__version__ == "1.1.3"
+        assert package.__version__ == "1.1.4"
