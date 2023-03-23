@@ -68,6 +68,12 @@ class InputParameters(UnitValidationMixin):
     Cglc_feed: typing.Union[float, str] = 150.0  # mmol/liter
     Cgln_feed: typing.Union[float, str] = 10.0  # mmol/liter
 
+    # Optimal
+    T_optimal: typing.Union[float, str] = 36.40
+    T_optimal_decay_spread: typing.Union[float, str] = 3.12
+    pH_optimal: typing.Union[float, str] = 6.99
+    pH_optimal_decay_spread: typing.Union[float, str] = 1.00
+
     # Ndays to sim
     Ndays: int = 12  # days
     Nsamples: int = 2  # per day
@@ -93,6 +99,10 @@ class InputParameters(UnitValidationMixin):
             "Y_lac_glc": "dimensionless",
             "Cglc_feed": "mmol/L",
             "Cgln_feed": "mmol/L",
+            "T_optimal": "degC",
+            "T_optimal_decay_spread": "degC",
+            "pH_optimal": "dimensionless",
+            "pH_optimal_decay_spread": "dimensionless",
         }
 
 
