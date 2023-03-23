@@ -108,7 +108,8 @@ class GrowCHO:
                 False.
             sampling_stddev (float, optional): scale of error in normal distributed
                 sampling event, relative to sample magnitude. Defaults to 0.05.
-            starting_at_day (int, optional): day at which to start the simulation. Defaults to 0.
+            starting_at_day (int, optional): day at which to start the simulation. 
+                Defaults to 0.
 
         Raises:
             IOError: If initial conditions were not supplied.
