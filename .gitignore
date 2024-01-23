@@ -27,3 +27,7 @@ cover/
 
 # junit xml test metadata
 junit.xml
+
+# Others
+.vscode/
+.DS_Store

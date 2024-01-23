@@ -9,13 +9,13 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.10"
 scipy = ">1.7.0"
-numpy = "=1.23.5"
+numpy = "^1.23.5"
 pandas = "^1.5.0"
 Pint = "^0.19.2"
 mypy = "^0.991"
 PyYAML = "^6.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = "^22.12.0"
 matplotlib = "^3.6.2"
 pytest = "^7.1.3"

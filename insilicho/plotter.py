@@ -1,8 +1,9 @@
 import numpy as np
 from matplotlib import pyplot as plt
+from matplotlib.figure import Figure
 
 
-def plot(tspan: np.ndarray, state: np.ndarray, state_vars: np.ndarray) -> plt.figure:
+def plot(tspan: np.ndarray, state: np.ndarray, state_vars: np.ndarray) -> Figure:
     """Default plot for solver
 
     Returns:
