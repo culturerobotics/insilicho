@@ -14,4 +14,4 @@ test-verbose: tc
 .PHONY: docs-local
 
 docs-local:
-	cd docs; make clean && make html; open _build/html/index.html
+	cd docs; SPHINXBUILD="uv run sphinx-build" make clean && SPHINXBUILD="uv run sphinx-build" make html; open _build/html/index.html
