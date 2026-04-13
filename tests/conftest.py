@@ -2,7 +2,6 @@ import pytest
 
 from insilicho import run
 
-
 CFG_DICT = {"parameters": {"K_lys": "0.05 1/h"}, "initial_conditions": {"V": 0.025}}
 
 

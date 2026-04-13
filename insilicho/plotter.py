@@ -1,8 +1,9 @@
 import numpy as np
 from matplotlib import pyplot as plt
+from matplotlib.figure import Figure
 
 
-def plot(tspan: np.ndarray, state: np.ndarray, state_vars: np.ndarray) -> plt.figure:
+def plot(tspan: np.ndarray, state: np.ndarray, state_vars: np.ndarray) -> Figure:
     """Default plot for solver
 
     Returns:
@@ -36,7 +37,7 @@ def plot(tspan: np.ndarray, state: np.ndarray, state_vars: np.ndarray) -> plt.fi
     ax7.set_ylabel("Species [mM]")
     ax8.set_ylabel("Temp[degC]")
 
-    (Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Coxygen, V, pH) = state.transpose()
+    Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Coxygen, V, pH = state.transpose()
     Temp = state_vars[:, 1]
     Osmolarity = state_vars[:, 9]
 
