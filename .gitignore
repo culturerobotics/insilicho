@@ -28,6 +28,9 @@ cover/
 # junit xml test metadata
 junit.xml
 
+# Virtual environments
+.venv/
+
 # Others
 .vscode/
 .DS_Store

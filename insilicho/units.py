@@ -4,6 +4,6 @@ import pint
 
 # Setup the pint unit-tracking system.
 # All units must come from same registry.
-UNIT = pint.UnitRegistry()
+UNIT: pint.UnitRegistry = pint.UnitRegistry()
 
 UnitType = typing.Any
