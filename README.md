@@ -22,6 +22,10 @@ This repo serves as a standalone package, available to install using (or added a
 
 `pip install insilicho`
 
+Or install directly from GitHub:
+
+`pip install git+https://github.com/culturerobotics/insilicho.git`
+
 # Example
 
 ```python
