@@ -28,11 +28,11 @@ jobs:
       run: uv sync
     - name: Lint with flake8
       run: |
-        uvx flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        uvx flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        uv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        uv run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Lint with black
       run: |
-        uv run black --check .
+        uv run black --check --diff .
     - name: pytest
       run: |
         make test

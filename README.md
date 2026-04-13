@@ -26,6 +26,14 @@ Or install directly from GitHub:
 
 `pip install git+https://github.com/culturerobotics/insilicho.git`
 
+# Development
+
+Requires [uv](https://docs.astral.sh/uv/getting-started/installation/):
+
+```bash
+make install
+```
+
 # Example
 
 ```python

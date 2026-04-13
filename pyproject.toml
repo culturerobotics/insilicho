@@ -26,6 +26,7 @@ dev = [
     "pytest-timeout>=2.2,<3",
     "Sphinx>=7.0,<10",
     "sphinx-rtd-theme>=2.0,<4",
+    "flake8>=7.0",
     "ipykernel>=7.0,<8",
     "pre-commit>=3.0",
 ]

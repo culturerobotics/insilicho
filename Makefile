@@ -1,5 +1,6 @@
 install:
 	uv sync
+	uv run pre-commit install
 
 tc typecheck:
 	uv run mypy . --show-error-codes

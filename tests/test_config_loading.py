@@ -57,7 +57,7 @@ class TestYAMLConfigLoading:
             path = f.name
 
         try:
-            with pytest.raises(Exception):
+            with pytest.raises((TypeError, AttributeError)):
                 run.GrowCHO(
                     path,
                     feed_fn=lambda t: 0.003,
