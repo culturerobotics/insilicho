@@ -13,9 +13,7 @@ class TestYAMLConfigLoading:
             "parameters": {"K_lys": 0.05, "Ndays": 6},
             "initial_conditions": {"V": 0.025},
         }
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".yaml", delete=False
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as f:
             yaml.dump(config, f)
             path = f.name
 
@@ -35,9 +33,7 @@ class TestYAMLConfigLoading:
             "parameters": {"K_lys": "0.05 1/h"},
             "initial_conditions": {"V": "50 mL"},
         }
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".yaml", delete=False
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as f:
             yaml.dump(config, f)
             path = f.name
 
@@ -52,9 +48,7 @@ class TestYAMLConfigLoading:
             os.unlink(path)
 
     def test_invalid_yaml_raises(self):
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".yaml", delete=False
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as f:
             # Write content that yaml.safe_load can parse but gives
             # bad structure — config_parser itself won't raise on valid
             # YAML, but an empty file gives None which triggers downstream
@@ -84,9 +78,7 @@ class TestYAMLConfigLoading:
 class TestConfigParser:
     def test_parses_valid_yaml(self):
         config = {"parameters": {"Ndays": 8}}
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".yaml", delete=False
-        ) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".yaml", delete=False) as f:
             yaml.dump(config, f)
             path = f.name
 

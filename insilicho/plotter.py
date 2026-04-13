@@ -37,7 +37,7 @@ def plot(tspan: np.ndarray, state: np.ndarray, state_vars: np.ndarray) -> Figure
     ax7.set_ylabel("Species [mM]")
     ax8.set_ylabel("Temp[degC]")
 
-    (Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Coxygen, V, pH) = state.transpose()
+    Xv, Xt, Cglc, Cgln, Clac, Camm, Cmab, Coxygen, V, pH = state.transpose()
     Temp = state_vars[:, 1]
     Osmolarity = state_vars[:, 9]
 
